@@ -29,6 +29,7 @@ var encodeCmd = &cobra.Command{
 	Use:     "encode",
 	Aliases: []string{"e"},
 	Short:   "base64 encode a secret",
+	Example: "ks [encode, e] fakesecret",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			theme.Err("must provide a secret to encode")
@@ -61,8 +62,8 @@ var encodeCmd = &cobra.Command{
 var decodeCmd = &cobra.Command{
 	Use:     "decode",
 	Aliases: []string{"d"},
+	Example: "ks [decode, d] ZmFrZXNlY3JldA==",
 	Short:   "decode a base64 encoded secret",
-
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			theme.Err("must provide a secret to decode")
