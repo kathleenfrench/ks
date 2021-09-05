@@ -1,11 +1,16 @@
+INSTALL_LOCATION := /usr/local/bin
+BIN := ks
+PWD = $(shell pwd)
+DIST := $(PWD)/build
+BIN_OUT := $(DIST)/$(BIN)
 
 build: clean ## compile the ks binary to the workspace's root build directory
 	@mkdir -p build
-	@go build -o build/ks main.go
+	@go build -o $(BIN_OUT) main.go
 
 install: build ## install the ks binary to /usr/local/bin
-	@mv build/ks /usr/local/bin
-	@chmod 755 /usr/local/bin/ks
+	@cp $(BIN_OUT) $(INSTALL_LOCATION)
+	@chmod 755 $(INSTALL_LOCATION)/$(BIN)
 
 clean:
 	@rm -rf build
