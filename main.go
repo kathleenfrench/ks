@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/kathleenfrench/ks/cmd/ks"
+)
 
 func main() {
-	fmt.Println("ks")
+	ks.Execute()
 }
