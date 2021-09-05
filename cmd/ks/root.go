@@ -1,10 +1,10 @@
 package ks
 
 import (
-	"fmt"
 	"log"
 	"os"
 
+	"github.com/kathleenfrench/ks/internal/theme"
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +12,7 @@ var rootCmd = &cobra.Command{
 	Use:   "ks",
 	Short: "a simple utility for base64 encoding secrets for k8s and copying them to the clipboard",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("hello world")
+		theme.PrintLogo()
 	},
 }
 
