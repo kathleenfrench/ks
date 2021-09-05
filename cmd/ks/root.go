@@ -1,7 +1,6 @@
 package ks
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -13,8 +12,10 @@ import (
 )
 
 var (
-	p    = parse.NewParser()
-	clip = clipboard.NewClipboard()
+	p       = parse.NewParser()
+	clip    = clipboard.NewClipboard()
+	verbose bool
+	silent  bool
 )
 
 var rootCmd = &cobra.Command{
@@ -45,7 +46,13 @@ var encodeCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		fmt.Println(encoded)
+		if !silent {
+			theme.Result(encoded)
+
+			if verbose {
+				theme.Info("> copied encoded secret to clipboard!")
+			}
+		}
 	},
 }
 
@@ -70,13 +77,25 @@ var decodeCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		fmt.Println(decoded)
+		if !silent {
+			theme.Result(decoded)
+
+			if verbose {
+				theme.Info("> copied decoded secret to clipboard!")
+			}
+		}
 	},
 }
 
 func init() {
+	// flags
+	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "verbose output")
+	rootCmd.PersistentFlags().BoolVarP(&silent, "silent", "s", false, "no std output - clipboard only mode")
+
+	// subcommands
 	rootCmd.AddCommand(encodeCmd)
 	rootCmd.AddCommand(decodeCmd)
+
 	rootCmd.CompletionOptions = cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	}

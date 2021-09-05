@@ -9,6 +9,9 @@ import (
 	"golang.org/x/term"
 )
 
+const yellow = "#ffee00"
+const green = "#42f590"
+
 var (
 	subtle  = lipgloss.AdaptiveColor{Light: "#D9DCCF", Dark: "#383838"}
 	special = lipgloss.AdaptiveColor{Light: "#43BF6D", Dark: "#73F59F"}
@@ -46,7 +49,29 @@ var (
 	)
 
 	logoWrapperStyle = lipgloss.NewStyle().Padding(1, 2, 1, 2)
+
+	stdoutStyle = lipgloss.NewStyle().
+			Bold(true).
+			Foreground(lipgloss.Color(yellow)).
+			MarginLeft(1).
+			PaddingTop(1).
+			PaddingBottom(1)
+
+	resultStyle = lipgloss.NewStyle().
+			Bold(true).
+			Foreground(lipgloss.Color(green)).
+			MarginLeft(1).
+			PaddingTop(1).
+			PaddingBottom(1)
 )
+
+func Info(text string) {
+	fmt.Println(stdoutStyle.Render(text))
+}
+
+func Result(text string) {
+	fmt.Println(resultStyle.Render(text))
+}
 
 func PrintLogo() {
 	termWidth, _, _ := term.GetSize(int(os.Stdout.Fd()))
