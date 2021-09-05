@@ -1,7 +1,6 @@
 package ks
 
 import (
-	"log"
 	"os"
 	"strings"
 
@@ -32,18 +31,21 @@ var encodeCmd = &cobra.Command{
 	Short:   "base64 encode a secret",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			log.Fatal("must provide a secret to encode")
+			theme.Err("must provide a secret to encode")
+			os.Exit(1)
 		}
 
 		secret := args[0]
 		encoded, err := p.Encode(strings.TrimSpace(secret))
 		if err != nil {
-			log.Fatal(err)
+			theme.Err(err.Error())
+			os.Exit(1)
 		}
 
 		err = clip.Write(encoded)
 		if err != nil {
-			log.Fatal(err)
+			theme.Err(err.Error())
+			os.Exit(1)
 		}
 
 		if !silent {
@@ -63,18 +65,21 @@ var decodeCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			log.Fatal("must provide a secret to decode")
+			theme.Err("must provide a secret to decode")
+			os.Exit(1)
 		}
 
 		secret := args[0]
 		decoded, err := p.Decode(strings.TrimSpace(secret))
 		if err != nil {
-			log.Fatal(err)
+			theme.Err(err.Error())
+			os.Exit(1)
 		}
 
 		err = clip.Write(decoded)
 		if err != nil {
-			log.Fatal(err)
+			theme.Err(err.Error())
+			os.Exit(1)
 		}
 
 		if !silent {
@@ -103,7 +108,7 @@ func init() {
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		log.Fatal(err)
+		theme.Err(err.Error())
 		os.Exit(1)
 	}
 }

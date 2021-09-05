@@ -11,6 +11,7 @@ import (
 
 const yellow = "#ffee00"
 const green = "#42f590"
+const red = "#ff0000"
 
 var (
 	subtle  = lipgloss.AdaptiveColor{Light: "#D9DCCF", Dark: "#383838"}
@@ -63,6 +64,13 @@ var (
 			MarginLeft(1).
 			PaddingTop(1).
 			PaddingBottom(1)
+
+	errStyle = lipgloss.NewStyle().
+			Bold(true).
+			Foreground(lipgloss.Color(red)).
+			MarginLeft(1).
+			PaddingTop(1).
+			PaddingBottom(1)
 )
 
 func Info(text string) {
@@ -71,6 +79,10 @@ func Info(text string) {
 
 func Result(text string) {
 	fmt.Println(resultStyle.Render(text))
+}
+
+func Err(text string) {
+	fmt.Println(errStyle.Render(text))
 }
 
 func PrintLogo() {
