@@ -1,8 +1,6 @@
 package ks
 
 import (
-	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -13,8 +11,10 @@ import (
 )
 
 var (
-	p    = parse.NewParser()
-	clip = clipboard.NewClipboard()
+	p       = parse.NewParser()
+	clip    = clipboard.NewClipboard()
+	verbose bool
+	silent  bool
 )
 
 var rootCmd = &cobra.Command{
@@ -31,21 +31,30 @@ var encodeCmd = &cobra.Command{
 	Short:   "base64 encode a secret",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			log.Fatal("must provide a secret to encode")
+			theme.Err("must provide a secret to encode")
+			os.Exit(1)
 		}
 
 		secret := args[0]
 		encoded, err := p.Encode(strings.TrimSpace(secret))
 		if err != nil {
-			log.Fatal(err)
+			theme.Err(err.Error())
+			os.Exit(1)
 		}
 
 		err = clip.Write(encoded)
 		if err != nil {
-			log.Fatal(err)
+			theme.Err(err.Error())
+			os.Exit(1)
 		}
 
-		fmt.Println(encoded)
+		if !silent {
+			theme.Result(encoded)
+
+			if verbose {
+				theme.Info("> copied encoded secret to clipboard!")
+			}
+		}
 	},
 }
 
@@ -56,32 +65,50 @@ var decodeCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			log.Fatal("must provide a secret to decode")
+			theme.Err("must provide a secret to decode")
+			os.Exit(1)
 		}
 
 		secret := args[0]
 		decoded, err := p.Decode(strings.TrimSpace(secret))
 		if err != nil {
-			log.Fatal(err)
+			theme.Err(err.Error())
+			os.Exit(1)
 		}
 
 		err = clip.Write(decoded)
 		if err != nil {
-			log.Fatal(err)
+			theme.Err(err.Error())
+			os.Exit(1)
 		}
 
-		fmt.Println(decoded)
+		if !silent {
+			theme.Result(decoded)
+
+			if verbose {
+				theme.Info("> copied decoded secret to clipboard!")
+			}
+		}
 	},
 }
 
 func init() {
+	// flags
+	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "verbose output")
+	rootCmd.PersistentFlags().BoolVarP(&silent, "silent", "s", false, "no std output - clipboard only mode")
+
+	// subcommands
 	rootCmd.AddCommand(encodeCmd)
 	rootCmd.AddCommand(decodeCmd)
+
+	rootCmd.CompletionOptions = cobra.CompletionOptions{
+		DisableDefaultCmd: true,
+	}
 }
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		log.Fatal(err)
+		theme.Err(err.Error())
 		os.Exit(1)
 	}
 }
