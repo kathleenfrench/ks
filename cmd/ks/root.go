@@ -77,6 +77,9 @@ var decodeCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(encodeCmd)
 	rootCmd.AddCommand(decodeCmd)
+	rootCmd.CompletionOptions = cobra.CompletionOptions{
+		DisableDefaultCmd: true,
+	}
 }
 
 func Execute() {
