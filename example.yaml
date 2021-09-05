@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-sa-sample
+type: Opaque
+data:
+  faux-secret-key: ZmFrZXNlY3JldA==
+  top-secret-key: dG9wc2VjcmV0
