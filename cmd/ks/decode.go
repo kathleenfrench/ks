@@ -1,6 +1,7 @@
 package ks
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/kathleenfrench/ks/internal/decoder"
@@ -18,6 +19,10 @@ var decodeCmd = &cobra.Command{
 			theme.Err("must provide a secret to decode")
 			_ = cmd.Help()
 			os.Exit(1)
+		}
+
+		if targetFile != "" {
+			fmt.Println("TODO: TARGET FILE: ", targetFile)
 		}
 
 		secret := args[0]

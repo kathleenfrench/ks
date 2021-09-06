@@ -37,6 +37,7 @@ func init() {
 	rootCmd.AddCommand(encodeCmd)
 	rootCmd.AddCommand(decodeCmd)
 
+	// overkill
 	rootCmd.CompletionOptions = cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	}
