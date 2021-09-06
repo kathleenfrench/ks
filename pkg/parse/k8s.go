@@ -7,6 +7,7 @@ type K8sMetaSecret struct {
 	Kind     string            `yaml:"kind"`
 	Metadata map[string]string `yaml:"metadata"`
 	Data     map[string]string `yaml:"data"`
+	Type     string            `yaml:"type"`
 }
 
 func (p *parser) ReadSecretYAML(filepath string) (*K8sMetaSecret, error) {
