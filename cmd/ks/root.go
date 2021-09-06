@@ -14,7 +14,6 @@ var rootCmd = &cobra.Command{
 		switch targetFile {
 		case "":
 			theme.PrintLogo()
-			_ = cmd.Help()
 		default:
 			handleFile(targetFile)
 		}
