@@ -55,6 +55,30 @@ topsecret
 
 ```
 
+# development
+
+## local
+
+to work on `ks` locally, there are a number of useful `make` targets.
+
+` > make`
+
+```
+Local `make` Commands:
+
+  build            compile the ks binary to the workspace's root build directory
+  install          install the ks binary to /usr/local/bin
+  clean            delete the build output directory
+  lint             lint the go code
+  test             run unit tests
+  help             see available make commands
+
+```
+
+## CI
+
+a `lint` and `build/test` action runs on PR branches using the declared workflows in `.github/workflows`
+
 ---
 
 ## todo
