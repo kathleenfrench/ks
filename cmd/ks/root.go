@@ -11,7 +11,13 @@ var rootCmd = &cobra.Command{
 	Use:   "ks",
 	Short: "a simple utility for base64 encoding secrets for k8s and copying them to the clipboard",
 	Run: func(cmd *cobra.Command, args []string) {
-		theme.PrintLogo()
+		switch targetFile {
+		case "":
+			theme.PrintLogo()
+			_ = cmd.Help()
+		default:
+			handleFile(targetFile)
+		}
 	},
 }
 
@@ -19,6 +25,7 @@ func init() {
 	// flags
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "verbose output")
 	rootCmd.PersistentFlags().BoolVarP(&silent, "silent", "s", false, "no std output - clipboard only mode")
+	rootCmd.PersistentFlags().StringVarP(&targetFile, "file", "f", "", "target an existing secret yaml file")
 
 	// subcommands
 	rootCmd.AddCommand(encodeCmd)

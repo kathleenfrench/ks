@@ -20,24 +20,28 @@ var decodeCmd = &cobra.Command{
 		}
 
 		secret := args[0]
-		decoded, err := p.Decode(strings.TrimSpace(secret))
-		if err != nil {
-			theme.Err(err.Error())
-			os.Exit(1)
-		}
-
-		err = clip.Write(decoded)
-		if err != nil {
-			theme.Err(err.Error())
-			os.Exit(1)
-		}
-
-		if !silent {
-			theme.Result(decoded)
-
-			if verbose {
-				theme.Info("> copied decoded secret to clipboard!")
-			}
-		}
+		decoder(secret)
 	},
+}
+
+func decoder(secret string) {
+	decoded, err := p.Decode(strings.TrimSpace(secret))
+	if err != nil {
+		theme.Err(err.Error())
+		os.Exit(1)
+	}
+
+	err = clip.Write(decoded)
+	if err != nil {
+		theme.Err(err.Error())
+		os.Exit(1)
+	}
+
+	if !silent {
+		theme.Result(decoded)
+
+		if verbose {
+			theme.Info("> copied decoded secret to clipboard!")
+		}
+	}
 }

@@ -2,6 +2,7 @@ package ks
 
 import (
 	"github.com/kathleenfrench/ks/pkg/clipboard"
+	"github.com/kathleenfrench/ks/pkg/file"
 	"github.com/kathleenfrench/ks/pkg/parse"
 )
 
@@ -9,10 +10,12 @@ import (
 var (
 	p    = parse.NewParser()
 	clip = clipboard.NewClipboard()
+	fm   = file.NewManager()
 )
 
-// flags
+// global flags
 var (
-	verbose bool
-	silent  bool
+	verbose    bool
+	silent     bool
+	targetFile string
 )

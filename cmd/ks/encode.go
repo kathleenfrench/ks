@@ -20,24 +20,28 @@ var encodeCmd = &cobra.Command{
 		}
 
 		secret := args[0]
-		encoded, err := p.Encode(strings.TrimSpace(secret))
-		if err != nil {
-			theme.Err(err.Error())
-			os.Exit(1)
-		}
-
-		err = clip.Write(encoded)
-		if err != nil {
-			theme.Err(err.Error())
-			os.Exit(1)
-		}
-
-		if !silent {
-			theme.Result(encoded)
-
-			if verbose {
-				theme.Info("> copied encoded secret to clipboard!")
-			}
-		}
+		encoder(secret)
 	},
+}
+
+func encoder(secret string) {
+	encoded, err := p.Encode(strings.TrimSpace(secret))
+	if err != nil {
+		theme.Err(err.Error())
+		os.Exit(1)
+	}
+
+	err = clip.Write(encoded)
+	if err != nil {
+		theme.Err(err.Error())
+		os.Exit(1)
+	}
+
+	if !silent {
+		theme.Result(encoded)
+
+		if verbose {
+			theme.Info("> copied encoded secret to clipboard!")
+		}
+	}
 }
