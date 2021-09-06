@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/kathleenfrench/ks/internal/secret"
 	"github.com/kathleenfrench/ks/internal/theme"
 	"github.com/kathleenfrench/ks/internal/ui"
 )
@@ -12,6 +13,7 @@ func handleFile(t string) {
 	var (
 		keys     []string
 		selected string
+		sm       = secret.NewManager()
 	)
 
 	blob, err := sm.Parse(targetFile)
