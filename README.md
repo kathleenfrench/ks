@@ -83,4 +83,5 @@ a `lint` and `build/test` action runs on PR branches using the declared workflow
 ---
 
 ## todo
-- [ ] open `yaml` file in editor of choice
+- [x] open `yaml` file in editor of choice
+- [ ] config file for setting a default editor
