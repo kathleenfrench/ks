@@ -79,9 +79,3 @@ Local `make` Commands:
 ## CI
 
 a `lint` and `build/test` action runs on PR branches using the declared workflows in `.github/workflows`
-
----
-
-## todo
-- [x] open `yaml` file in editor of choice
-- [ ] config file for setting a default editor
