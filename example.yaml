@@ -6,3 +6,4 @@ type: Opaque
 data:
   faux-secret-key: ZmFrZXNlY3JldA==
   top-secret-key: dG9wc2VjcmV0
+  hello-key: dGVzdGluZ291dHRoaXNmdW5jdGlvbmFsaXR5

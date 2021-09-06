@@ -19,14 +19,15 @@ the default behavior is for the encoded/decoded value to print to the terminal. 
 ```
 $ ks encode supersecretk8svalue
 $ ks e supersecretk8svalue
+$ ks encode $SOME_ENVIRONMENT_VARIABLE
 ``` 
 
 ### decode
 
 ```
 $ ks decode c3VwZXJzZWNyZXRrOHN2YWx1ZQ==
-
 $ ks d c3VwZXJzZWNyZXRrOHN2YWx1ZQ==
+$ ks decode $SOME_ENVIRONMENT_VARIABLE
 ```
 
 ### interactive mode
@@ -82,5 +83,4 @@ a `lint` and `build/test` action runs on PR branches using the declared workflow
 ---
 
 ## todo
-- [ ] environment variable check on input targets
 - [ ] open `yaml` file in editor of choice
