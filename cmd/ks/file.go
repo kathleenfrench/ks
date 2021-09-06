@@ -13,47 +13,31 @@ import (
 )
 
 const (
-	dKey    = "decode"
-	eKey    = "encode"
-	quitKey = "exit"
-)
-
-const (
-	copyOnlyKey    = "copy only"
-	copyAndOpenKey = "copy & open target file"
+	dKey = "decode"
+	eKey = "encode"
 )
 
 func handleFile(t string) {
 	if !strings.Contains(targetFile, "yaml") || strings.Contains(targetFile, "yml") {
-		theme.Err("target file must be YAML")
-		os.Exit(1)
+		ui.ExitOnErr("target file must by YAML")
 	}
 
 	exists, err := fm.FilepathExists(targetFile)
 	if err != nil {
-		theme.Err(err.Error())
-		os.Exit(1)
+		ui.ExitOnErr(err.Error())
 	}
 
 	if !exists {
-		theme.Err(fmt.Sprintf("%s does not exist - are you sure you provided the correct file path?", targetFile))
-		os.Exit(1)
+		ui.ExitOnErr(fmt.Sprintf("%s does not exist - are you sure you provided the correct file path?", targetFile))
 	}
 
 	raw, _ := fm.ReadFile(targetFile)
 	k8res, err := p.ParseK8sYAML(string(raw))
 	if err != nil {
-		theme.Err(err.Error())
-		os.Exit(1)
+		ui.ExitOnErr(err.Error())
 	}
 
 	secretData := k8res.Blob.Object["data"]
-
-	// k8s, err := p.ReadSecretYAML(targetFile)
-	// if err != nil {
-	// 	theme.Err(err.Error())
-	// 	os.Exit(1)
-	// }
 
 	if verbose {
 		raw, _ := fm.ReadFile(targetFile)
@@ -63,8 +47,7 @@ func handleFile(t string) {
 
 	secretDataMap, err := p.InterfaceToMap(secretData)
 	if err != nil {
-		theme.Err(err.Error())
-		os.Exit(1)
+		ui.ExitOnErr(err.Error())
 	}
 
 	var keys []string
@@ -73,20 +56,18 @@ func handleFile(t string) {
 	}
 
 	if len(keys) == 0 {
-		theme.Err("no data keys to parse...")
-		os.Exit(1)
+		ui.ExitOnErr("no data keys to parse...")
 	}
 
 	var selected string
 	prompt := &survey.Select{
-		Message: "select a key",
+		Message: "select an existing key",
 		Options: keys,
 	}
 
 	err = survey.AskOne(prompt, &selected)
 	if err != nil {
-		theme.Err(err.Error())
-		os.Exit(1)
+		ui.ExitOnErr(err.Error())
 	}
 
 	selectedValue := secretDataMap[selected]
@@ -95,24 +76,22 @@ func handleFile(t string) {
 	var selectedRoute string
 	prompt = &survey.Select{
 		Message: "do you want to decode or encode this value?",
-		Options: []string{dKey, eKey, quitKey},
+		Options: []string{dKey, eKey, ui.QuitKey},
 	}
 
 	err = survey.AskOne(prompt, &selectedRoute)
 	if err != nil {
-		theme.Err(err.Error())
-		os.Exit(1)
+		ui.ExitOnErr(err.Error())
 	}
 
-	if selectedRoute == quitKey {
-		theme.Info("bye!")
-		os.Exit(1)
+	if selectedRoute == ui.QuitKey {
+		ui.Exit()
 	}
 
 	var nextStep string
 	prompt = &survey.Select{
 		Message: "select one",
-		Options: []string{copyOnlyKey, copyAndOpenKey, quitKey},
+		Options: []string{ui.CopyOnlyPromptMessage, ui.CopyAndOpenPromptMessage, ui.QuitKey},
 	}
 
 	err = survey.AskOne(prompt, &nextStep)
@@ -126,33 +105,28 @@ func handleFile(t string) {
 	switch selectedRoute {
 	case dKey:
 		switch nextStep {
-		case quitKey:
-			theme.Info("bye!")
-			os.Exit(1)
+		case ui.QuitKey:
+			ui.Exit()
 		default:
 			err := decoder.Run(selectedValue, silent, verbose)
 			if err != nil {
-				theme.Err(err.Error())
-				os.Exit(1)
+				ui.ExitOnErr(err.Error())
 			}
 
-			if nextStep == copyAndOpenKey {
+			if nextStep == ui.CopyAndOpenPromptMessage {
 				initCmd, err := ui.GetEditorPrompt("select an editor")
 				if err != nil {
-					theme.Err(err.Error())
-					os.Exit(1)
+					ui.ExitOnErr(err.Error())
 				}
 
 				out, err := ui.GetTextEditorInputOnSave(fmt.Sprintf("view/edit %s", targetFile), string(fileContents), "**.yaml", initCmd)
 				if err != nil {
-					theme.Err(err.Error())
-					os.Exit(1)
+					ui.ExitOnErr(err.Error())
 				}
 
 				err = fm.Write(targetFile, []byte(out))
 				if err != nil {
-					theme.Err(err.Error())
-					os.Exit(1)
+					ui.ExitOnErr(err.Error())
 				}
 
 				if verbose {
@@ -164,33 +138,28 @@ func handleFile(t string) {
 		}
 	case eKey:
 		switch nextStep {
-		case quitKey:
-			theme.Info("bye!")
-			os.Exit(1)
+		case ui.QuitKey:
+			ui.Exit()
 		default:
 			err := encoder.Run(selectedValue, silent, verbose)
 			if err != nil {
-				theme.Err(err.Error())
-				os.Exit(1)
+				ui.ExitOnErr(err.Error())
 			}
 
-			if nextStep == copyAndOpenKey {
+			if nextStep == ui.CopyAndOpenPromptMessage {
 				initCmd, err := ui.GetEditorPrompt("select an editor")
 				if err != nil {
-					theme.Err(err.Error())
-					os.Exit(1)
+					ui.ExitOnErr(err.Error())
 				}
 
 				out, err := ui.GetTextEditorInputOnSave(fmt.Sprintf("view/edit %s", targetFile), string(fileContents), "**.yaml", initCmd)
 				if err != nil {
-					theme.Err(err.Error())
-					os.Exit(1)
+					ui.ExitOnErr(err.Error())
 				}
 
 				err = fm.Write(targetFile, []byte(out))
 				if err != nil {
-					theme.Err(err.Error())
-					os.Exit(1)
+					ui.ExitOnErr(err.Error())
 				}
 
 				if verbose {
