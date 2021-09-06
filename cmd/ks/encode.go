@@ -26,7 +26,7 @@ var encodeCmd = &cobra.Command{
 		}
 
 		secret := args[0]
-		err := encoder.Run(secret, silent, verbose)
+		err := encoder.Run(secret, silent)
 		if err != nil {
 			theme.Err(err.Error())
 			os.Exit(1)

@@ -16,6 +16,7 @@ type Manager interface {
 	Handle(b *parse.UnstructuredK8s, selectedValue string, targetFilename string, silent bool, verbose bool) error
 	Parse(filepath string) (*parse.UnstructuredK8s, error)
 	AddNewKey(b *parse.UnstructuredK8s) (string, error)
+	PrintFile(name string, content string)
 }
 
 type manager struct {
@@ -94,12 +95,12 @@ func (m *manager) Handle(b *parse.UnstructuredK8s, selectedValue string, targetF
 
 	switch selectedConversion {
 	case ui.DecodeKey:
-		err := decoder.Run(selectedValue, silent, verbose)
+		err := decoder.Run(selectedValue, silent)
 		if err != nil {
 			ui.ExitOnErr(err.Error())
 		}
 	case ui.EncodeKey:
-		err := encoder.Run(selectedValue, silent, verbose)
+		err := encoder.Run(selectedValue, silent)
 		if err != nil {
 			ui.ExitOnErr(err.Error())
 		}
@@ -126,7 +127,7 @@ func (m *manager) Handle(b *parse.UnstructuredK8s, selectedValue string, targetF
 
 	if !silent {
 		if verbose {
-			theme.Result(output)
+			m.PrintFile(targetFilename, output)
 		}
 
 		theme.Info(fmt.Sprintf("saved changes to %s!", targetFilename))
@@ -139,4 +140,9 @@ func (m *manager) AddNewKey(b *parse.UnstructuredK8s) (string, error) {
 	fmt.Println("BLOB OBJECT: ", b.Blob.Object)
 
 	return "", nil
+}
+
+func (m *manager) PrintFile(name string, content string) {
+	theme.Info(fmt.Sprintf("--- %s ----", name))
+	fmt.Println(content)
 }

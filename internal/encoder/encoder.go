@@ -1,6 +1,7 @@
 package encoder
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/kathleenfrench/ks/internal/theme"
@@ -8,7 +9,7 @@ import (
 	"github.com/kathleenfrench/ks/pkg/parse"
 )
 
-func Run(secret string, silent bool, verbose bool) error {
+func Run(secret string, silent bool) error {
 	p := parse.NewParser()
 	clip := clipboard.NewClipboard()
 
@@ -23,11 +24,7 @@ func Run(secret string, silent bool, verbose bool) error {
 	}
 
 	if !silent {
-		theme.Result(encoded)
-
-		if verbose {
-			theme.Info("> copied encoded secret to clipboard!")
-		}
+		theme.Result(fmt.Sprintf("%s copied to clipboard", encoded))
 	}
 
 	return nil

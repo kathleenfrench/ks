@@ -8,9 +8,10 @@ const (
 )
 
 const (
-	DecodeOrEncodePromptMessage = "Encode or Decode?"
-	SelectOneMessage            = "Select One"
-	SelectAnEditor              = "Select an Editor"
-	CopyOnlyPromptMessage       = "Copy Only"
-	CopyAndOpenPromptMessage    = "Copy & Open File"
+	SelectFromAnExistingKeyMessage = "Select from existing keys"
+	DecodeOrEncodePromptMessage    = "Encode or decode?"
+	SelectOneMessage               = "Select one"
+	SelectAnEditor                 = "Select an editor"
+	CopyOnlyPromptMessage          = "Copy only"
+	CopyAndOpenPromptMessage       = "Copy & open file"
 )

@@ -1,8 +1,6 @@
 package ks
 
 import (
-	"fmt"
-
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/kathleenfrench/ks/internal/secret"
 	"github.com/kathleenfrench/ks/internal/theme"
@@ -22,8 +20,7 @@ func handleFile(t string) {
 	}
 
 	if verbose {
-		theme.Info(fmt.Sprintf("--- %s ----", targetFile))
-		fmt.Println(blob.Raw)
+		sm.PrintFile(targetFile, blob.Raw)
 	}
 
 	if blob.Data != nil {
@@ -31,7 +28,7 @@ func handleFile(t string) {
 	}
 
 	prompt := &survey.Select{
-		Message: "select from an existing key",
+		Message: ui.SelectFromAnExistingKeyMessage,
 		Options: keys,
 	}
 
