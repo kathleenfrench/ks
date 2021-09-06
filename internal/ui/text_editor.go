@@ -63,7 +63,7 @@ func GetTextEditorInputOnSave(msg string, defaultText string, filename string, e
 		HideDefault:   true,
 		AppendDefault: true,
 		Editor:        editorInit,
-		Help:          "save the file to close it",
+		Help:          "save then exit the file for ks to capture the response",
 	}
 
 	err := survey.AskOne(prompt, &content)
