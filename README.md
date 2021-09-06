@@ -32,7 +32,14 @@ $ ks decode $SOME_ENVIRONMENT_VARIABLE
 
 ### interactive mode
 
-in 'interactive mode', rather than directly provide any value to `ks`, you instead provide the filepath to a `yaml|yml` secret file. `ks` will then parse the data key/value pairs and you can select them from a prompt UI, from which you can opt to encode or decode a given value and copy it to the keyboard.
+in 'interactive mode', rather than directly provide any value to `ks`, you instead provide the filepath to a `yaml|yml` secret file. 
+
+`ks` will then parse the data key/value pairs and you can select them from a prompt UI, from which you can opt to encode or decode a given value.
+
+then you are prompted whether you want to just copy that response or copy it and also open the target file as a temporary file in your text editor of choice. upon saving and exiting, `ks` will overwrite the actual target file with your changes.
+
+
+## copy only mode
 
 ```
 $ ks -f example.yaml
@@ -45,15 +52,59 @@ $ ks -f example.yaml
 
 dG9wc2VjcmV0
 
-? select one [Use arrows to move, type to filter]
-> decode & copy to clipboard
-  encode & copy to clipboard
+? do you want to decode or encode this value? [Use arrows to move, type to filter]
+> decode
+  encode
   exit
 
-? select one: decode & copy to clipboard
+? select one [Use arrows to move, type to filter]
+> copy only
+  copy & open target file
+  exit
+
+? select one: copy only
 
 topsecret
 
+```
+
+## editor mode
+
+```
+$ ks -f example.yaml
+
+? select a key [Use arrows to move, type to filter]
+> faux-secret-key
+  top-secret-key
+
+? select a key: top-secret-key
+
+dG9wc2VjcmV0
+
+? do you want to decode or encode this value? [Use arrows to move, type to filter]
+> decode
+  encode
+  exit
+
+? select one [Use arrows to move, type to filter]
+  copy only
+> copy & open target file
+  exit
+
+? select an editor [Use arrows to move, type to filter]
+> Vim
+  Emacs
+  Atom
+  Sublime
+  VS Code
+  quit
+
+? view/edit example.yaml [? for help] [Enter to launch editor]
+
+<opens example.yaml tmp file in chosen editor>
+<save file & quit>
+
+saved changes to <file>!
 ```
 
 # development

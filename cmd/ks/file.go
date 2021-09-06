@@ -134,12 +134,14 @@ func handleFile(t string) {
 					os.Exit(1)
 				}
 
-				theme.Result(out)
-
 				err = fm.Write(targetFile, []byte(out))
 				if err != nil {
 					theme.Err(err.Error())
 					os.Exit(1)
+				}
+
+				if verbose {
+					theme.Result(out)
 				}
 
 				theme.Info(fmt.Sprintf("saved changes to %s!", targetFile))
@@ -170,12 +172,14 @@ func handleFile(t string) {
 					os.Exit(1)
 				}
 
-				theme.Result(out)
-
 				err = fm.Write(targetFile, []byte(out))
 				if err != nil {
 					theme.Err(err.Error())
 					os.Exit(1)
+				}
+
+				if verbose {
+					theme.Result(out)
 				}
 
 				theme.Info(fmt.Sprintf("saved changes to %s!", targetFile))
