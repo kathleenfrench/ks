@@ -32,8 +32,8 @@ jobs:
             ${{ runner.os }}-go-
       - name: download go modules
         run: go mod download
-      # - name: test
-      #   run: TODO
+      - name: test
+        run: go test -v ./...
       - name: build
         run: |
           mkdir -p build
