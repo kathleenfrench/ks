@@ -40,11 +40,20 @@ func handleFile(t string) {
 		os.Exit(1)
 	}
 
-	k8s, err := p.ReadSecretYAML(targetFile)
+	raw, _ := fm.ReadFile(targetFile)
+	k8res, err := p.ParseK8sYAML(string(raw))
 	if err != nil {
 		theme.Err(err.Error())
 		os.Exit(1)
 	}
+
+	secretData := k8res.Blob.Object["data"]
+
+	// k8s, err := p.ReadSecretYAML(targetFile)
+	// if err != nil {
+	// 	theme.Err(err.Error())
+	// 	os.Exit(1)
+	// }
 
 	if verbose {
 		raw, _ := fm.ReadFile(targetFile)
@@ -52,9 +61,15 @@ func handleFile(t string) {
 		fmt.Println(string(raw))
 	}
 
+	secretDataMap, err := p.InterfaceToMap(secretData)
+	if err != nil {
+		theme.Err(err.Error())
+		os.Exit(1)
+	}
+
 	var keys []string
-	if k8s.Data != nil {
-		keys = p.GetMapKeys(k8s.Data)
+	if secretData != nil {
+		keys = p.GetMapKeys(secretDataMap)
 	}
 
 	if len(keys) == 0 {
@@ -74,7 +89,7 @@ func handleFile(t string) {
 		os.Exit(1)
 	}
 
-	selectedValue := k8s.Data[selected]
+	selectedValue := secretDataMap[selected]
 	theme.Info(selectedValue)
 
 	var selectedRoute string

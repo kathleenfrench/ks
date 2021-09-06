@@ -2,6 +2,10 @@
 
 `ks` is a simple utility for encoding and decoding kubernetes secrets.
 
+```
+go get github.com/kathleenfrench/ks
+```
+
 ## why though?
 
 newline chars fool me once, shame on me...fool me twice, write a command line tool.
