@@ -1,0 +1,17 @@
+name: lint
+on: [push, pull_request]
+
+jobs:
+  ci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: ci-lint
+        ## https://github.com/golangci/golangci-lint-action
+        uses: golangci/golangci-lint-action@v2
+        with:
+          ## golangci-lint command line arguments
+          args: --issues-exit-code=0
+          ## show only new issues if it's a pull request. The default value is `false`
+          only-new-issues: false
