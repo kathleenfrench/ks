@@ -9,7 +9,10 @@ import (
 )
 
 type UnstructuredK8s struct {
-	Blob *metav1_unstruct.Unstructured
+	Blob     *metav1_unstruct.Unstructured
+	Data     map[string]string
+	DataKeys []string
+	Raw      string
 }
 
 func (p *parser) ParseK8sYAML(content string) (*UnstructuredK8s, error) {
@@ -32,7 +35,21 @@ func (p *parser) ParseK8sYAML(content string) (*UnstructuredK8s, error) {
 
 	out := &UnstructuredK8s{
 		Blob: &unstructured,
+		Raw:  content,
 	}
+
+	dataInterface, ok := unstructured.Object["data"]
+	if !ok || dataInterface == nil {
+		return out, nil
+	}
+
+	dataMap, err := p.InterfaceToMap(dataInterface)
+	if err != nil {
+		return out, err
+	}
+
+	out.Data = dataMap
+	out.DataKeys = p.GetMapKeys(dataMap)
 
 	return out, nil
 }

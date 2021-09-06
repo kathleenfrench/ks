@@ -1,10 +1,16 @@
 package ui
 
 const (
-	QuitKey = "Quit"
+	QuitKey   = "Quit"
+	DecodeKey = "Decode"
+	EncodeKey = "Encode"
+	AddNewKey = "Add New Secret"
 )
 
 const (
-	CopyOnlyPromptMessage    = "Copy Only"
-	CopyAndOpenPromptMessage = "Copy and Open File"
+	DecodeOrEncodePromptMessage = "Encode or Decode?"
+	SelectOneMessage            = "Select One"
+	SelectAnEditor              = "Select an Editor"
+	CopyOnlyPromptMessage       = "Copy Only"
+	CopyAndOpenPromptMessage    = "Copy & Open File"
 )

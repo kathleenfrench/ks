@@ -1,6 +1,8 @@
 package parse
 
-import "github.com/kathleenfrench/ks/pkg/file"
+import (
+	"github.com/kathleenfrench/ks/pkg/file"
+)
 
 type Parser interface {
 	Encode(s string) (string, error)
@@ -9,6 +11,7 @@ type Parser interface {
 	CanParseYAML(content []byte, v interface{}) error
 	ParseK8sYAML(content string) (*UnstructuredK8s, error)
 	InterfaceToMap(v interface{}) (map[string]string, error)
+	SupportedExtension(filepath string, exts []string) bool
 }
 
 type parser struct {

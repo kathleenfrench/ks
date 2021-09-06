@@ -1,6 +1,7 @@
 package ks
 
 import (
+	"github.com/kathleenfrench/ks/internal/secret"
 	"github.com/kathleenfrench/ks/pkg/file"
 	"github.com/kathleenfrench/ks/pkg/parse"
 )
@@ -9,6 +10,7 @@ import (
 var (
 	p  = parse.NewParser()
 	fm = file.NewManager()
+	sm = secret.NewManager()
 )
 
 // global flags
