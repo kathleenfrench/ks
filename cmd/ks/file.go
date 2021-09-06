@@ -6,6 +6,8 @@ import (
 	"strings"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/kathleenfrench/ks/internal/decoder"
+	"github.com/kathleenfrench/ks/internal/encoder"
 	"github.com/kathleenfrench/ks/internal/theme"
 )
 
@@ -46,7 +48,7 @@ func handleFile(t string) {
 
 	var keys []string
 	if k8s.Data != nil {
-		keys = getKeys(k8s.Data)
+		keys = p.GetMapKeys(k8s.Data)
 	}
 
 	if len(keys) == 0 {
@@ -83,19 +85,19 @@ func handleFile(t string) {
 
 	switch selectedAction {
 	case dCopyKey:
-		decoder(selectedValue)
+		err := decoder.Run(selectedValue, silent, verbose)
+		if err != nil {
+			theme.Err(err.Error())
+			os.Exit(1)
+		}
 	case eCopyKey:
-		encoder(selectedValue)
+		err := encoder.Run(selectedValue, silent, verbose)
+		if err != nil {
+			theme.Err(err.Error())
+			os.Exit(1)
+		}
 	case quitKey:
 		theme.Info("bye!")
 		os.Exit(1)
 	}
-}
-
-func getKeys(v map[string]string) (keys []string) {
-	for k := range v {
-		keys = append(keys, k)
-	}
-
-	return keys
 }

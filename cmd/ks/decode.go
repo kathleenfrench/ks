@@ -2,8 +2,8 @@ package ks
 
 import (
 	"os"
-	"strings"
 
+	"github.com/kathleenfrench/ks/internal/decoder"
 	"github.com/kathleenfrench/ks/internal/theme"
 	"github.com/spf13/cobra"
 )
@@ -21,28 +21,10 @@ var decodeCmd = &cobra.Command{
 		}
 
 		secret := args[0]
-		decoder(secret)
-	},
-}
-
-func decoder(secret string) {
-	decoded, err := p.Decode(strings.TrimSpace(secret))
-	if err != nil {
-		theme.Err(err.Error())
-		os.Exit(1)
-	}
-
-	err = clip.Write(decoded)
-	if err != nil {
-		theme.Err(err.Error())
-		os.Exit(1)
-	}
-
-	if !silent {
-		theme.Result(decoded)
-
-		if verbose {
-			theme.Info("> copied decoded secret to clipboard!")
+		err := decoder.Run(secret, silent, verbose)
+		if err != nil {
+			theme.Err(err.Error())
+			os.Exit(1)
 		}
-	}
+	},
 }
