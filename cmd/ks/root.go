@@ -25,7 +25,7 @@ func init() {
 	// flags
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "verbose output")
 	rootCmd.PersistentFlags().BoolVarP(&silent, "silent", "s", false, "no std output - clipboard only mode")
-	rootCmd.PersistentFlags().StringVarP(&targetFile, "file", "f", "", "target an existing secret yaml file")
+	rootCmd.PersistentFlags().StringVarP(&targetFile, "file", "f", "", "target an existing secret yaml file -> ks -f <secret-filename>.yaml|.yml")
 
 	// subcommands
 	rootCmd.AddCommand(encodeCmd)

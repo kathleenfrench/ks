@@ -16,6 +16,7 @@ var encodeCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			theme.Err("must provide a secret to encode")
+			cmd.Help()
 			os.Exit(1)
 		}
 

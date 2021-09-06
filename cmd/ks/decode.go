@@ -16,6 +16,7 @@ var decodeCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			theme.Err("must provide a secret to decode")
+			cmd.Help()
 			os.Exit(1)
 		}
 
