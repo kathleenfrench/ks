@@ -60,7 +60,11 @@ func handleFile(t string) {
 		Options: keys,
 	}
 
-	survey.AskOne(prompt, &selected)
+	err = survey.AskOne(prompt, &selected)
+	if err != nil {
+		theme.Err(err.Error())
+		os.Exit(1)
+	}
 
 	selectedValue := k8s.Data[selected]
 	theme.Info(selectedValue)
@@ -71,7 +75,11 @@ func handleFile(t string) {
 		Options: []string{dCopyKey, eCopyKey, quitKey},
 	}
 
-	survey.AskOne(prompt, &selectedAction)
+	err = survey.AskOne(prompt, &selectedAction)
+	if err != nil {
+		theme.Err(err.Error())
+		os.Exit(1)
+	}
 
 	switch selectedAction {
 	case dCopyKey:

@@ -15,7 +15,10 @@ install: build ## install the ks binary to /usr/local/bin
 clean:
 	@rm -rf build
 
+lint:
+	@golangci-lint run
+
 help: ## lists useful (but not all) commands, see the Makefile for more.
 	@awk 'BEGIN {FS = ":.*##"; printf "\Local `make` Commands:\n \033[36m\033[0m\n"} /^[$$()% a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-.PHONY: build install clean help
+.PHONY: build install clean help lint
