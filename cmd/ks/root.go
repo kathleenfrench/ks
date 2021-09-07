@@ -12,6 +12,7 @@ var (
 	verbose    bool
 	silent     bool
 	targetFile string
+	noCopy     bool
 )
 
 var rootCmd = &cobra.Command{
@@ -32,6 +33,9 @@ func init() {
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "verbose output")
 	rootCmd.PersistentFlags().BoolVarP(&silent, "silent", "s", false, "no std output - clipboard only mode")
 	rootCmd.PersistentFlags().StringVarP(&targetFile, "file", "f", "", "target an existing secret yaml file -> ks -f <secret-filename>.yaml|.yml")
+
+	encodeCmd.PersistentFlags().BoolVarP(&noCopy, "nocopy", "n", false, "do not copy yaml output when ks parses a file")
+	decodeCmd.PersistentFlags().BoolVarP(&noCopy, "nocopy", "n", false, "do not copy yaml output when ks parses a file")
 
 	// subcommands
 	rootCmd.AddCommand(encodeCmd)

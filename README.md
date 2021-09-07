@@ -39,12 +39,51 @@ $ ks e supersecretk8svalue
 $ ks encode $SOME_ENVIRONMENT_VARIABLE
 ``` 
 
+when you run `ks encode` with the `-f` flag and append a filename for an existing k8s secret config, `ks` will encode all of the secret values under `data` and output them to the terminal.
+
+by default, this result is copied to the clipboard, but this behavior can be disabled by appending the `--nocopy` flag
+
+```
+$ ks encode -f example.yaml
+
+apiVersion: v1
+data:
+  faux-secret-key: Wm1GclpYTmxZM0psZEE9PQ==
+  top-secret-key: ZEc5d2MyVmpjbVYw
+kind: Secret
+metadata:
+  name: secret-sa-sample
+type: Opaque
+
+result copied to clipboard!
+```
+
 ### decode
 
 ```
 $ ks decode c3VwZXJzZWNyZXRrOHN2YWx1ZQ==
 $ ks d c3VwZXJzZWNyZXRrOHN2YWx1ZQ==
 $ ks decode $SOME_ENVIRONMENT_VARIABLE
+```
+
+
+when you run `ks decode` with the `-f` flag and append a filename for an existing k8s secret config, `ks` will decode all of the secret values under `data` and output them to the terminal.
+
+by default, this result is copied to the clipboard, but this behavior can be disabled by appending the `--nocopy` flag
+
+```
+$ ks decode -f example.yaml
+
+apiVersion: v1
+data:
+  faux-secret-key: fakesecret
+  top-secret-key: topsecret
+kind: Secret
+metadata:
+  name: secret-sa-sample
+type: Opaque
+
+result copied to clipboard!
 ```
 
 ## file mode

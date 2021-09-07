@@ -7,6 +7,7 @@ import (
 	"github.com/kathleenfrench/ks/internal/secret"
 	"github.com/kathleenfrench/ks/internal/theme"
 	"github.com/kathleenfrench/ks/internal/ui"
+	"github.com/kathleenfrench/ks/pkg/clipboard"
 	"github.com/spf13/cobra"
 )
 
@@ -45,5 +46,11 @@ var encodeCmd = &cobra.Command{
 		}
 
 		theme.Info(ub.Raw)
+
+		if !noCopy {
+			clip := clipboard.NewClipboard()
+			_ = clip.Write(ub.Raw)
+			theme.Result("result copied to clipboard!")
+		}
 	},
 }
