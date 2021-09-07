@@ -15,7 +15,8 @@ newline chars fool me once, shame on me...fool me twice, write a command line to
 - encode or decode a terminal input and copy it to your clipboard, and trust that newline/whitespace chars have been stripped
 - parse k8s secret data directly from a file into a simple terminal UI, and select whether to encode/decode by key
 - option to open and edit k8s secret files after copying converted secret values
-- ability to add new secrets via `ks` where `ks` handles the encoding/decoding for you. 
+- ability to add new secrets via `ks` where `ks` handles the encoding/decoding for you.
+- encode or decode *all* `data` values in a k8s secret file and output it to the terminal/copy it to the clipboard.
 
 # usage
 
