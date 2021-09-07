@@ -45,12 +45,16 @@ var decodeCmd = &cobra.Command{
 			ui.ExitOnErr(err.Error())
 		}
 
-		theme.Info(ub.Raw)
+		if !silent {
+			theme.Info(ub.Raw)
+		}
 
 		if !noCopy {
 			clip := clipboard.NewClipboard()
 			_ = clip.Write(ub.Raw)
-			theme.Result("result copied to clipboard!")
+			if !silent {
+				theme.Result("result copied to clipboard!")
+			}
 		}
 	},
 }
