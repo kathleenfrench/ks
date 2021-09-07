@@ -15,7 +15,8 @@ newline chars fool me once, shame on me...fool me twice, write a command line to
 - encode or decode a terminal input and copy it to your clipboard, and trust that newline/whitespace chars have been stripped
 - parse k8s secret data directly from a file into a simple terminal UI, and select whether to encode/decode by key
 - option to open and edit k8s secret files after copying converted secret values
-- ability to add new secrets via `ks` where `ks` handles the encoding/decoding for you. 
+- ability to add new secrets via `ks` where `ks` handles the encoding/decoding for you.
+- encode or decode *all* `data` values in a k8s secret file and output it to the terminal/copy it to the clipboard.
 
 # usage
 
@@ -39,12 +40,51 @@ $ ks e supersecretk8svalue
 $ ks encode $SOME_ENVIRONMENT_VARIABLE
 ``` 
 
+when you run `ks encode` with the `-f` flag and append a filename for an existing k8s secret config, `ks` will encode all of the secret values under `data` and output them to the terminal.
+
+by default, this result is copied to the clipboard, but this behavior can be disabled by appending the `--nocopy` flag
+
+```
+$ ks encode -f example.yaml
+
+apiVersion: v1
+data:
+  faux-secret-key: Wm1GclpYTmxZM0psZEE9PQ==
+  top-secret-key: ZEc5d2MyVmpjbVYw
+kind: Secret
+metadata:
+  name: secret-sa-sample
+type: Opaque
+
+result copied to clipboard!
+```
+
 ### decode
 
 ```
 $ ks decode c3VwZXJzZWNyZXRrOHN2YWx1ZQ==
 $ ks d c3VwZXJzZWNyZXRrOHN2YWx1ZQ==
 $ ks decode $SOME_ENVIRONMENT_VARIABLE
+```
+
+
+when you run `ks decode` with the `-f` flag and append a filename for an existing k8s secret config, `ks` will decode all of the secret values under `data` and output them to the terminal.
+
+by default, this result is copied to the clipboard, but this behavior can be disabled by appending the `--nocopy` flag
+
+```
+$ ks decode -f example.yaml
+
+apiVersion: v1
+data:
+  faux-secret-key: fakesecret
+  top-secret-key: topsecret
+kind: Secret
+metadata:
+  name: secret-sa-sample
+type: Opaque
+
+result copied to clipboard!
 ```
 
 ## file mode
