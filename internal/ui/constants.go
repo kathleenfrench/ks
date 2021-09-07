@@ -9,12 +9,13 @@ const (
 )
 
 const (
-	SelectFromAnExistingKeyMessage = "Select from existing keys"
-	DecodeOrEncodePromptMessage    = "Encode or decode?"
-	SelectNextActionMessage        = "Select next action"
-	SelectAnEditor                 = "Select an editor"
-	CopyOnlyPromptMessage          = "Copy only"
-	CopyAndOpenPromptMessage       = "Copy & open file"
+	SelectFromAnExistingKeyMessage  = "Select from existing keys"
+	DecodeOrEncodePromptMessage     = "Encode or decode?"
+	SelectNextActionMessage         = "Select next action"
+	UpdateSecretBeforeSavingMessage = "Update secret value before saving?"
+	SelectAnEditor                  = "Select an editor"
+	CopyOnlyPromptMessage           = "Copy only"
+	CopyAndOpenPromptMessage        = "Copy & open file"
 )
 
 const (

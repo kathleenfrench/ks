@@ -46,9 +46,12 @@ func handleFile(t string) {
 			ui.ExitOnErr(err.Error())
 		}
 
-		if verbose && !silent {
-			theme.Result(updatedEntity.Raw)
-			theme.Info(fmt.Sprintf("saved changes to %s!", targetFile))
+		if !silent {
+			if verbose {
+				theme.Result(updatedEntity.Raw)
+			}
+
+			theme.Info(fmt.Sprintf("saved any changes to %s!", targetFile))
 		}
 	default:
 		err = sm.Handle(blob, blob.Data[selected], targetFile, silent, verbose)

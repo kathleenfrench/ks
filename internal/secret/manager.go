@@ -134,7 +134,7 @@ func (m *manager) Handle(b *parse.UnstructuredK8s, selectedValue string, targetF
 			m.PrintFile(targetFilename, output)
 		}
 
-		theme.Info(fmt.Sprintf("saved changes to %s!", targetFilename))
+		theme.Info(fmt.Sprintf("saved any changes to %s!", targetFilename))
 	}
 
 	return nil
@@ -182,8 +182,8 @@ func (m *manager) AddNewKey(b *parse.UnstructuredK8s, targetFile string) (*parse
 	newValue = strings.TrimSpace(newValue)
 
 	sPrompt := &survey.Select{
-		Message: ui.SelectNextActionMessage,
-		Options: []string{ui.DecodeKey, ui.EncodeKey, ui.SaveAsIs, ui.QuitKey},
+		Message: ui.UpdateSecretBeforeSavingMessage,
+		Options: []string{ui.EncodeKey, ui.DecodeKey, ui.SaveAsIs, ui.QuitKey},
 	}
 
 	err = survey.AskOne(sPrompt, &selectedAction)

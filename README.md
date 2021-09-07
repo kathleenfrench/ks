@@ -74,12 +74,15 @@ topsecret
 
 ## editor mode
 
+### copy & edit
+
 ```
 $ ks -f example.yaml
 
 ? select a key [Use arrows to move, type to filter]
 > faux-secret-key
   top-secret-key
+  Add New Secret
 
 ? select a key: top-secret-key
 
@@ -108,8 +111,30 @@ dG9wc2VjcmV0
 <opens example.yaml tmp file in chosen editor>
 <save file & quit>
 
-saved changes to <file>!
+saved any changes to <file>!
 ```
+
+### add a new secret
+
+```
+$ ks -f example.yaml
+
+? select a key [Use arrows to move, type to filter]
+  faux-secret-key
+  top-secret-key
+> Add New Secret
+
+? Provide a valid secret key: test-key
+? Provide a secret value: ******
+? Update secret value before saving? [Use arrows to move, type to filter]
+  Decode
+> Encode
+  Save As Is
+  Quit
+
+<saves example.yaml with new secret>
+```
+
 
 # development
 
