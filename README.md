@@ -10,13 +10,26 @@ go get github.com/kathleenfrench/ks
 
 newline chars fool me once, shame on me...fool me twice, write a command line tool.
 
-essentially, `ks` ensures any value copied to the command line for encoding/decoding has newline and/or added whitespace characters stripped. it then copies the result to your clipboard.
+###  what `ks` does
 
-you can control how much information is written to `stdout` with the `--verbose` and `--silent` flags. `--silent` is pretty self-explanatory, in that nothing is written to `stdout`. 
-
-the default behavior is for the encoded/decoded value to print to the terminal. a `--verbose` flag just writes additional info logs that confirm the result was copied to the clipboard, or - in the case of parsing k8s files - out-putting the `yaml`.
+- encode or decode a terminal input and copy it to your clipboard, and trust that newline/whitespace chars have been stripped
+- parse k8s secret data directly from a file into a simple terminal UI, and select whether to encode/decode by key
+- option to open and edit k8s secret files after copying converted secret values
+- ability to add new secrets via `ks` where `ks` handles the encoding/decoding for you. 
 
 # usage
+
+## flags
+
+#### `--verbose`, `--silent`
+
+you can control how much information is written to `stdout` with the `--verbose` and `--silent` flags. 
+
+#### `--file`
+
+the `--file` flag is a filepath relative to the current working directory if you are using `ks` with an existing `yaml` configuration.
+
+## commands
 
 ### encode
 
@@ -34,16 +47,14 @@ $ ks d c3VwZXJzZWNyZXRrOHN2YWx1ZQ==
 $ ks decode $SOME_ENVIRONMENT_VARIABLE
 ```
 
-### interactive mode
+## file mode
 
-in 'interactive mode', rather than directly provide any value to `ks`, you instead provide the filepath to a `yaml|yml` secret file. 
+when you provide a `-f` value (or filepath) with no subsequent arguments or subcommands, `ks` will parse the data key/value pairs and you can select them from a prompt UI, from which you can opt to encode or decode a given value.
 
-`ks` will then parse the data key/value pairs and you can select them from a prompt UI, from which you can opt to encode or decode a given value.
-
-then you are prompted whether you want to just copy that response or copy it and also open the target file as a temporary file in your text editor of choice. upon saving and exiting, `ks` will overwrite the actual target file with your changes.
+after, you will be prompted whether you want to just copy that response or copy it and also open the target file as a temporary file in your text editor of choice. upon saving and exiting, `ks` will overwrite the actual target file with your changes.
 
 
-## copy only mode
+### copy only mode
 
 ```
 $ ks -f example.yaml
@@ -72,9 +83,7 @@ topsecret
 
 ```
 
-## editor mode
-
-### copy & edit
+### editor mode
 
 ```
 $ ks -f example.yaml
