@@ -1,6 +1,8 @@
 package ks
 
 import (
+	"fmt"
+
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/kathleenfrench/ks/internal/secret"
 	"github.com/kathleenfrench/ks/internal/theme"
@@ -39,13 +41,14 @@ func handleFile(t string) {
 
 	switch selected {
 	case ui.AddNewKey:
-		updatedYaml, err := sm.AddNewKey(blob)
+		updatedEntity, err := sm.AddNewKey(blob, targetFile)
 		if err != nil {
 			ui.ExitOnErr(err.Error())
 		}
 
 		if verbose && !silent {
-			theme.Result(updatedYaml)
+			theme.Result(updatedEntity.Raw)
+			theme.Info(fmt.Sprintf("saved changes to %s!", targetFile))
 		}
 	default:
 		err = sm.Handle(blob, blob.Data[selected], targetFile, silent, verbose)
