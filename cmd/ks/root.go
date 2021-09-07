@@ -7,6 +7,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// global flags
+var (
+	verbose    bool
+	silent     bool
+	targetFile string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "ks",
 	Short: "a simple utility for base64 encoding secrets for k8s and copying them to the clipboard",
@@ -29,8 +36,8 @@ func init() {
 	// subcommands
 	rootCmd.AddCommand(encodeCmd)
 	rootCmd.AddCommand(decodeCmd)
-	rootCmd.AddCommand(interactiveCmd)
 
+	// overkill
 	rootCmd.CompletionOptions = cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	}

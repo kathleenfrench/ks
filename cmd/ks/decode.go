@@ -1,6 +1,7 @@
 package ks
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/kathleenfrench/ks/internal/decoder"
@@ -20,8 +21,12 @@ var decodeCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
+		if targetFile != "" {
+			fmt.Println("TODO: TARGET FILE: ", targetFile)
+		}
+
 		secret := args[0]
-		err := decoder.Run(secret, silent, verbose)
+		err := decoder.Run(secret, silent)
 		if err != nil {
 			theme.Err(err.Error())
 			os.Exit(1)
